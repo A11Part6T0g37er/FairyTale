@@ -13,38 +13,64 @@ namespace FairyTale
 
         static void Main(string[] args)
         {
-            ArrayList characters = new ArrayList() {  "Lis", "Kaban", "zayac", "Medved" };
             
-            Console.WriteLine("Start Text");
-            Tools.WaitInput();
-            Console.WriteLine($"{characters[0]} met  {characters[1]}" );
-            
-            Console.WriteLine($"{characters[0]} ate  {characters[1]}");
-            characters.Remove(characters[1]);
+            Character lis = new Character() { CharacterName = "Лис Хитрый" };
+            Character kaban = new Character() { CharacterName = "Кабан" };
+            Character zayac = new Character() { CharacterName = "Заяц" };
+            Character medved = new Character() { CharacterName = "Медведь" };
+            List<Character> characters = new List<Character>() { lis, kaban, zayac, medved };
+            Console.WriteLine("Как-то шли");
 
-            Console.WriteLine($"They left {characters.Count}");
-           foreach (string charact in characters)
+           foreach (var charact in characters)
             {
-                Console.WriteLine(charact);
+                Console.Write(charact.CharacterName);
+                Console.Write(" ");
             }
-            Character lis = new Character() { CharacterName = "Lis" };
-           Console.WriteLine( Character.points);
+            Console.Write("по лесу, и увидели спереди яму. Попытались они перепрыгнуть её.\n");
 
-            for (int i = 0; i < 20; i++)
+
+            List<Character> trapedOnes = new List<Character>();
+            foreach (var charact in characters)
             {
-
-                if (Character.Luck())
+                Console.Write($"{charact.CharacterName} попробовал ");
+                if (Character.Luck(9))
                 {
-                    Console.WriteLine("Your luck has gained you another point!");
-                    Character.points++;
+                    Console.WriteLine("но не получилось!");
+                    trapedOnes.Add(charact);
                 }
                 else
                 {
-                    Console.WriteLine("Your luck has failed.... you've lost a point.");
-                    Character.points--;
+                    Console.WriteLine("и удалось избежать ловушки и сразу скрылся из ввиду.");
+                   
                 }
             }
-            Console.WriteLine("Your points: " + Character.points);
+            Console.WriteLine($"Итак {trapedOnes.Count} из них осталось в яме. Среди них были ");
+            foreach (var trapped in trapedOnes)
+            {
+                Console.Write($"{trapped.CharacterName} ");
+            }
+            Tools.WaitInput();
+            Console.WriteLine("Долго ли коротко сидели и проголодались аж выть хотелось.");
+            Console.WriteLine($"Предложил {trapedOnes[0].CharacterName} запеть, и хто хуже споет того и съедят.\n И так пока выход не найдут.");
+
+            while (trapedOnes.Count > 1)
+            {
+
+
+                for (int i = 0; i < trapedOnes.Count; i++)
+                {
+
+
+                    Console.Write($"Запели они но пение {trapedOnes[i].CharacterName} оказалось хуже всех и на него тут же набросились. ");
+                    Console.WriteLine("Но голод не отступал.");
+                    trapedOnes.RemoveAt(i);
+                }
+            } 
+            if (trapedOnes.Count == 1)
+            {
+                Console.WriteLine("to be continue ...");
+                //    Game.Scene("drozd");
+            }
             Tools.WaitInput();
         }
     }

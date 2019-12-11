@@ -13,9 +13,9 @@ namespace FairyTale
         public static int points = 0;
         public string CharacterName { get; set; } = "Void";
 
-        public static bool Luck()
+        public static bool Luck(int luck)
         {
-
+            int yourLuck = luck;
             int karma = randomNum.Next(11);
             bool result = false;
 
@@ -25,7 +25,7 @@ namespace FairyTale
             return result;
         }
 
-        public void EatCharacter()
+        public virtual void EatCharacter()
         {
             throw new NotImplementedException();
         }
