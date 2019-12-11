@@ -1,0 +1,6 @@
+C:\Users\bghva\source\repos\FairyTale\bin\Debug\FairyTale.exe.config
+C:\Users\bghva\source\repos\FairyTale\bin\Debug\FairyTale.exe
+C:\Users\bghva\source\repos\FairyTale\bin\Debug\FairyTale.pdb
+C:\Users\bghva\source\repos\FairyTale\obj\Debug\FairyTale.csprojAssemblyReference.cache
+C:\Users\bghva\source\repos\FairyTale\obj\Debug\FairyTale.exe
+C:\Users\bghva\source\repos\FairyTale\obj\Debug\FairyTale.pdb
