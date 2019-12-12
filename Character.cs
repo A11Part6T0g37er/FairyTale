@@ -8,12 +8,12 @@ namespace FairyTale
 {
     class Character : IEateble
     {
-        static Random randomNum = new Random();
+        
         const int luck = 5;
         public static int points = 0;
         public string CharacterName { get; set; } = "Void";
 
-        public static bool Luck(int luck)
+        public static bool Luck(int luck, Random randomNum)
         {
             int yourLuck = luck;
             int karma = randomNum.Next(11);
