@@ -13,23 +13,39 @@ namespace FairyTale
 
         static void Main(string[] args)
         {
-            Character lis = new Character() { CharacterName = "Лис Хитрый" };
-            Character kaban = new Character() { CharacterName = "Кабан" };
-            Character zayac = new Character() { CharacterName = "Заяц" };
-            Character medved = new Character() { CharacterName = "Медведь" };
-            List<Character> characters = new List<Character>() { lis, kaban, zayac, medved };
+            Fox lis =  new Fox() { CharacterName = "Лис Хитрый" };
+            Boar kaban = new Boar() { CharacterName = "Кабан" };
+            Hare zayac = new Hare() { CharacterName = "Заяц" };
+            Bear medved = new Bear() { CharacterName = "Медведь" };
+            List<ILuckable> characters = new List<ILuckable>() { lis, kaban, zayac, medved };
+            
+            
+            
+            
             try
             {
                 StoryTeller.EndlessStory(characters);
             }
-            catch (Exception ex)
+            catch (EmptyPitException ex)
             {
-                Console.WriteLine(ex.Message, ex.InnerException);
+                Console.WriteLine("Непредвиденная ошибка - пустая локация яма.");
+                Console.WriteLine(ex.Message, ex.InnerException, ex.Data);
+                Tools.WaitInput();
+                StoryTeller.EndlessStory(characters);
+
             }
-            
+            catch (Exception ex) when (ex is EmptyPitException)
+            {
+                Console.WriteLine("Outer exception");
+                Console.WriteLine(ex.Message, ex.InnerException, ex.StackTrace);
+                Tools.WaitInput();
+            }
+            finally {
+                Console.WriteLine("Кто-то сказочку сломал и об этом промолчал ...");
+                Tools.WaitInput();
 
-
-            
+            }
+               
         }
     }
 }

@@ -12,5 +12,16 @@ namespace FairyTale
         {
             Console.ReadKey();
         }
+        public static bool Luck(int luck, Random randomNum, int chance)
+        {
+            int yourLuck = luck;
+            int karma = randomNum.Next(chance);
+            bool result = false;
+
+            if (luck >= karma)
+            { result = true; }
+
+            return result;
+        }
     }
 }

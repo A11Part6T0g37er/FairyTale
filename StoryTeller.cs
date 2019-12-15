@@ -6,27 +6,36 @@ using System.Threading.Tasks;
 
 namespace FairyTale
 {
-    public static  class StoryTeller
-    { 
-      static  Random randomNum = new Random();
+    public static class StoryTeller
+    {
+        static Random randomNum = new Random();
 
-      internal  static void EndlessStory(List<Character> characters)
+        internal static void EndlessStory(List<ILuckable> characters)
         {
             Console.WriteLine("Press ESC to stop");
 
-        //    if ((Console.KeyAvailable && Console.ReadKey(true).Key == ConsoleKey.Escape))
-          //  {
-                
-           // }
-           while (!( Console.ReadKey(false).Key == ConsoleKey.Escape)) {
-              Start(characters);
-            }
-              Environment.Exit(0);
+           
+            while (!(Console.ReadKey(false).Key == ConsoleKey.Escape)) {
+                try
+                {
+                    Start(characters);
+                }
+                catch (EmptyPitException ex)
+                {
+                    Console.WriteLine(ex.Message, "Яма вновь ждет своих героев...");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    
+                }
+                }
+            Environment.Exit(0);
         }
         /// <summary>
-        /// Initialization point
+        /// Initialization point of story
         /// </summary>
-        internal static void Start(List<Character> characters)
+        internal static void Start(List<ILuckable> characters)
         {
             Console.Title = "Whoever and Drozd";
             Console.WriteLine("Как-то шли");
@@ -37,13 +46,14 @@ namespace FairyTale
                 Console.Write(" ");
             }
             Console.Write("по лесу, и увидели спереди яму. Попытались они перепрыгнуть её.\n");
-            List<Character> trapedOnes = new List<Character>();
+            List<ILuckable> trapedOnes = new List<ILuckable>();
             Tools.WaitInput();
             foreach (var charact in characters)
             {
                 Console.Write($"{charact.CharacterName} попробовал ");
-                if (Character.Luck(9, randomNum))
+                if (charact.Luck(9, randomNum))
                 {
+
                     Console.WriteLine("но не получилось!");
                     trapedOnes.Add(charact);
                 }
@@ -59,17 +69,38 @@ namespace FairyTale
 
             Console.Title = "Enter the pit";
             // Story flows into pit scene and sequently returns only one hero from hunger time
-            Character lastHero = PitTap(trapedOnes);
-            //    StoryFlow.Scene("drozd");
+            try
+            {
+                ILuckable lastHero = PitTap(trapedOnes);
+           
+                if (lastHero == null) throw new EmptyPitException("Дрозд больше никуда не прилетал и не вил гнезда.");
             Console.Title = "Drozd has come";
-            DrozdHasCome(lastHero);
+            DrozdHasCome(lastHero); 
+            }
+            catch (EmptyPitException ex)
+            {
+               Console.WriteLine(ex.Message);
+                throw new EmptyPitException("Сказка возвращается к исходной точке.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message, ex.InnerException, ex.StackTrace);
+            }
+            //    StoryFlow.Scene("drozd");
+           
         }
-
-        internal static Character PitTap(List<Character> trapedOnes)
+        /// <summary>
+        /// Some percatage of rescued others will be traped
+        /// </summary>
+        /// <param name="trapedOnes"></param>
+        /// <returns></returns>
+        internal static ILuckable PitTap(List<ILuckable> trapedOnes)
         {
-            if ( trapedOnes.Count == 0)
-                throw new ArgumentNullException() ;
-
+           
+                if (trapedOnes.Count == 0)
+                    Console.WriteLine("Никто в яму не попался.");
+            
+           
             Console.Write($"Итак {trapedOnes.Count} из них осталось в яме. Среди них были ");
             for (int i = 0; i < trapedOnes.Count; i++)
             {
@@ -85,16 +116,45 @@ namespace FairyTale
             }
             Console.WriteLine();
             Tools.WaitInput();
-            if (trapedOnes.Count > 0)
+            try
+            {
+
+            
+            if (Tools.Luck(20, randomNum, 100))
+            {
+                   
+                    trapedOnes.Clear();
+                    Console.BackgroundColor = ConsoleColor.Yellow;
+                    Console.ForegroundColor = ConsoleColor.Black;
+                    Console.WriteLine($"Внезапно начавшееся землятрясене изменило навегда ландшафт леса.\nВ яме оказалось {trapedOnes.Count} живых заложников.");
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.BackgroundColor = ConsoleColor.Black;
+                    throw new EmptyPitException("Внезапно все проснулись. Никто никогда не видел ямы. Оказалось это был просто сон ...");
+                  
+                }
+            else if (trapedOnes.Count > 0)
+            {
                 return HungerComes(trapedOnes);
-            else throw new ArgumentNullException();
+            }
+
+            else if (trapedOnes.Count <= 0)
+            {
+                throw new ArgumentNullException("Но никого не оказалось");
+            }
+           
+            }
+            catch (EmptyPitException ex)
+            {
+                Console.WriteLine(ex.Message,"Pit is a cake" );
+            }
+            return null; 
         }
         /// <summary>
         /// Returns the luckiest one after hunger 
         /// </summary>
         /// <param name="trapedOnes"></param>
         /// <returns></returns>
-        internal static Character HungerComes(List<Character> trapedOnes)
+        internal static ILuckable HungerComes(List<ILuckable> trapedOnes)
         {
             Console.WriteLine("Долго ли коротко сидели и проголодались аж выть хотелось.");
           int whoTells = TryLuck(trapedOnes);
@@ -118,7 +178,7 @@ namespace FairyTale
             return trapedOnes[0];
         }
 
-        private static int TryLuck(List<Character> trapedOnes)
+        private static int TryLuck(List<ILuckable> trapedOnes)
         {
            return randomNum.Next(trapedOnes.Count);
         }
@@ -127,14 +187,14 @@ namespace FairyTale
         /// End of story
         /// </summary>
         /// <param name="lastHero"></param>
-        private static void DrozdHasCome(Character lastHero)
+        private static void DrozdHasCome(ILuckable lastHero)
     {
-            Console.WriteLine("Но вот к яме прилетел дрозд и стал вить гнездо. ");
+            Console.WriteLine("Через какое-то время к яме прилетел дрозд и стал вить гнездо. ");
             Console.WriteLine($"Обратился {lastHero.CharacterName} к нему \"Спаси меня, дрозд, а не то я твоих детей съем. \" ");
-            if (Character.Luck(5, randomNum))
+            if (lastHero.Luck(5, randomNum))
             {
                 Console.WriteLine($"Дрозд решил все же спасти {lastHero.CharacterName}.\n Но злой {lastHero.CharacterName} продалжал угрожать птенцам,\n и лишь в обмен на еду соглашался пойти прочь.");
-                if (Character.Luck(3, randomNum))
+                if (lastHero.Luck(3, randomNum))
                 {
                     Console.WriteLine($"Дрозд пообещал накормить и {lastHero.CharacterName} остался ждать.\n Он полетел в ближайшее село и, притворившись раненым, привел за собой стаю собак,\n которые отбили насмерть желание обижать слабых и {lastHero.CharacterName} не стал спорить.");
                     if (lastHero.CharacterName == "Лис Хитрый")
@@ -148,6 +208,10 @@ namespace FairyTale
                 }
                 else
                 {
+                    if (Tools.Luck(90, randomNum, 10))
+                    {
+                        throw new Exception("Внезапно все проснулись. Оказалось это был просто сон ...");
+                    }
                     Console.WriteLine($"Дрозд пообещал накормить и {lastHero.CharacterName} остался его ждать.\n Но сам улетел прочь от этого опасного участка леса.");
                     Tools.WaitInput();
                 }

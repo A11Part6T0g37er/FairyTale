@@ -6,14 +6,16 @@ using System.Threading.Tasks;
 
 namespace FairyTale
 {
-    class Character : IEateble
+    internal abstract class Character :  ILuckable, Inameable
     {
-        
-        const int luck = 5;
+              
         public static int points = 0;
+
+       
+
         public string CharacterName { get; set; } = "Void";
 
-        public static bool Luck(int luck, Random randomNum)
+        public  bool Luck(int luck, Random randomNum)
         {
             int yourLuck = luck;
             int karma = randomNum.Next(11);
@@ -25,9 +27,6 @@ namespace FairyTale
             return result;
         }
 
-        public virtual void EatCharacter()
-        {
-            throw new NotImplementedException();
-        }
+       
     }
 }
