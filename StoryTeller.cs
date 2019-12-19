@@ -15,7 +15,7 @@ namespace FairyTale
             Console.WriteLine("Press ESC to stop");
 
            
-        ///    while (!(Console.ReadKey(false).Key == ConsoleKey.Escape)) {
+           while (!(Console.ReadKey(false).Key == ConsoleKey.Escape)) {
                 try
                 {
                     Start(characters);
@@ -29,7 +29,7 @@ namespace FairyTale
                     Console.WriteLine(ex.Message);
                     
                 }
-           //     }
+                }
            // Environment.Exit(0);
         }
         /// <summary>

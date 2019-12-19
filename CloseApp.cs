@@ -15,7 +15,9 @@ namespace FairyTale
        /// </summary>
         public void ClosingApp()
         {
-         //   Console.WriteLine("Publisher");
+         //
+            
+            Console.WriteLine("Publisher");
             
             if ( Console.ReadKey().Key == ConsoleKey.Escape)
             { 

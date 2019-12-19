@@ -39,7 +39,7 @@ namespace FairyTale
                 StoryTeller.EndlessStory(characters);
 
             }
-            catch (Exception ex) when (ex is EmptyPitException)
+            catch (Exception ex) 
             {
                 Console.WriteLine("Outer exception");
                 Console.WriteLine(ex.Message, ex.InnerException, ex.StackTrace);
