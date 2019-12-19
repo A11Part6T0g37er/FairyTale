@@ -9,13 +9,13 @@ namespace FairyTale
     public static class StoryTeller
     {
         static Random randomNum = new Random();
-
+        
         internal static void EndlessStory(List<ILuckable> characters)
         {
             Console.WriteLine("Press ESC to stop");
 
            
-            while (!(Console.ReadKey(false).Key == ConsoleKey.Escape)) {
+        ///    while (!(Console.ReadKey(false).Key == ConsoleKey.Escape)) {
                 try
                 {
                     Start(characters);
@@ -29,8 +29,8 @@ namespace FairyTale
                     Console.WriteLine(ex.Message);
                     
                 }
-                }
-            Environment.Exit(0);
+           //     }
+           // Environment.Exit(0);
         }
         /// <summary>
         /// Initialization point of story

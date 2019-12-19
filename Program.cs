@@ -10,6 +10,7 @@ namespace FairyTale
 {
     class Program
     {
+       
 
         static void Main(string[] args)
         {
@@ -18,11 +19,15 @@ namespace FairyTale
             Hare zayac = new Hare() { CharacterName = "Заяц" };
             Bear medved = new Bear() { CharacterName = "Медведь" };
             List<ILuckable> characters = new List<ILuckable>() { lis, kaban, zayac, medved };
-            
-            
-            
-            
-            try
+
+
+            CloseApp closeApp = new CloseApp();
+            var doesClosing = new DoesClosing();
+          //  closeApp.closingAppEvent += Tools.CloseApp_closingApp;
+            closeApp.closingAppEvent += doesClosing.OnProgramShutDown;
+            closeApp.ClosingApp();
+
+            try 
             {
                 StoryTeller.EndlessStory(characters);
             }
@@ -47,5 +52,7 @@ namespace FairyTale
             }
                
         }
+
+        
     }
 }

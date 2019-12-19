@@ -46,6 +46,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Character.cs" />
+    <Compile Include="CloseApp.cs" />
+    <Compile Include="DoesClosing.cs" />
     <Compile Include="EmptyPitException.cs" />
     <Compile Include="Hare.cs" />
     <Compile Include="Bear.cs" />
