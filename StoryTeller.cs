@@ -8,6 +8,7 @@ namespace FairyTale
 {
     public static class StoryTeller
     {
+        delegate void SpeechVisualizer();
         static Random randomNum = new Random();
         
         internal static void EndlessStory(List<ILuckable> characters)
@@ -30,7 +31,8 @@ namespace FairyTale
                     
                 }
                 }
-           // Environment.Exit(0);
+           
+            // Environment.Exit(0);
         }
         /// <summary>
         /// Initialization point of story
@@ -38,8 +40,9 @@ namespace FairyTale
         internal static void Start(List<ILuckable> characters)
         {
             Console.Title = "Whoever and Drozd";
-            Console.WriteLine("Как-то шли");
-
+           
+SpeechVisualizer speechInit = () => Console.WriteLine("Как-то шли");
+            speechInit();
             foreach (var charact in characters)
             {
                 Console.Write(charact.CharacterName);

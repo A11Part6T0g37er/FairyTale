@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace FairyTale
@@ -13,16 +14,17 @@ namespace FairyTale
        /// <summary>
        /// Publisher
        /// </summary>
-        public void ClosingApp()
+        public void ClosingApp(bool state)
         {
          //
             
-            Console.WriteLine("Publisher");
+          
             
-            if ( Console.ReadKey().Key == ConsoleKey.Escape)
+            if ( state)
             { 
               Console.WriteLine("CConsiole is being terminated ...");
-            closingAppEvent?.Invoke(this , EventArgs.Empty); // call event 
+                Thread.Sleep(800);
+                closingAppEvent?.Invoke(this , EventArgs.Empty); // call event 
              //   Environment.Exit(0);
             }
             

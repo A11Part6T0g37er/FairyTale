@@ -10,15 +10,11 @@ namespace FairyTale
     {
      public static   CloseApp closeApp = new CloseApp();
      static   DoesClosing doesClosing = new DoesClosing();
-        //  closeApp.closingAppEvent += Tools.CloseApp_closingApp;
        
-      //  closeApp.closingAppEvent += Tools.CloseApp_closingApp;
-        //closeApp.ClosingApp();
         internal static void CloseApp_closingApp()
         {
             Console.WriteLine("Delegate Cath`a");
-           // Console.ReadKey();
-          //  WaitInput();
+         
            Environment.Exit(0);
             
         }
@@ -30,7 +26,7 @@ namespace FairyTale
             if (Console.ReadKey().Key == ConsoleKey.Escape)
             {
                 closeApp.closingAppEvent += doesClosing.OnProgramShutDown;
-                closeApp.ClosingApp();
+                closeApp.ClosingApp(true);
              //   Environment.Exit(0);
             }
           

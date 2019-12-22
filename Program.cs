@@ -21,11 +21,6 @@ namespace FairyTale
             List<ILuckable> characters = new List<ILuckable>() { lis, kaban, zayac, medved };
 
 
-            CloseApp closeApp = new CloseApp();
-            var doesClosing = new DoesClosing();
-          //  closeApp.closingAppEvent += Tools.CloseApp_closingApp;
-            closeApp.closingAppEvent += doesClosing.OnProgramShutDown;
-            closeApp.ClosingApp();
 
             try 
             {
@@ -45,12 +40,15 @@ namespace FairyTale
                 Console.WriteLine(ex.Message, ex.InnerException, ex.StackTrace);
                 Tools.WaitInput();
             }
-            finally {
-                Console.WriteLine("Кто-то сказочку сломал и об этом промолчал ...");
-                Tools.WaitInput();
+          
+            //finally
+            //{
+            //    Console.WriteLine("Кто-то сказочку сломал и об этом промолчал ...");
+            //    Console.ReadKey();
 
-            }
-               
+            //} 
+           
+
         }
 
         
